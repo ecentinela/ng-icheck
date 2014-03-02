@@ -16,17 +16,23 @@
       function ($timeout) {
         return {
           require: 'ngModel',
-          link: function ($scope, $element, $attrs) {
+          link: function ($scope, $element, $attrs, ngModel) {
             $timeout(function () {
-              $element = $(element);
-
               $scope.$watch($attrs.ngModel, function () {
                 $element.iCheck('update');
               });
 
+              if (!$attrs.ngICheckCheckboxClass) {
+                $attrs.$set('ngICheckCheckboxClass', 'icheckbox_square-blue');
+              }
+
+              if (!$attrs.ngICheckRadioClass) {
+                $attrs.$set('ngICheckRadioClass', 'iradio_square-blue');
+              }
+
               $element.iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
+                checkboxClass: $attrs.ngICheckCheckboxClass,
+                radioClass: $attrs.ngICheckRadioClass
               }).on('ifChanged', function (event) {
                 if ($attrs.ngModel) {
                   switch ($element.attr('type')) {
